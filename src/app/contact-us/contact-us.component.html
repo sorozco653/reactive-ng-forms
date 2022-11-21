@@ -1,0 +1,58 @@
+<div class="modal-container">
+    <button *ngIf="currentIndex !== 0" class="prev" (click)="moveStep('prev')">
+        <span class="material-symbols-rounded">arrow_back</span>
+    </button>
+    <span class="stepper">Step {{ currentIndex + 1 }} of {{ steps.length }}</span>
+    <h2 class="modal__header">{{ steps[currentIndex].title }}</h2>
+
+    <form class="form" [formGroup]="signUp">
+
+        <ng-container *ngIf="currentIndex === 0">
+            <div class="form-field">
+                <label for="name">Name:</label>
+                <input id="name" type="text" formControlName="name" required>
+                <print-error [controlName]="signUp.controls.name"></print-error>
+            </div>        
+            <div class="form-field"> 
+                <label for="email">Email:</label>
+                <input id="email" type="email" formControlName="email" email="true">
+                <print-error [controlName]="signUp.controls.email"></print-error>
+            </div>
+            <div class="form-field">
+                <label for="dob">Date of Birth:</label>
+                <input id="dob" type="date" formControlName="dob">
+                <print-error [controlName]="signUp.controls.dob"></print-error>
+            </div> 
+            <button [disabled]="!(signUp.controls.name.valid && signUp.controls.email.valid && !signUp.controls.dob.pristine && signUp.controls.dob.valid)" class="btn" type="button" (click)="moveStep('next')"> Next</button>
+
+        </ng-container>
+
+        <ng-container *ngIf="currentIndex === 1">  
+
+            <div class="form-field ff-password">
+                <label for="password">Password:</label>
+                <input id="password" type="password" formControlName="password">
+                <print-error [controlName]="signUp.controls.password"></print-error>
+            </div>
+
+            <div class="form-field ff-password">
+                <label for="check_password">Confirm Password:</label>
+                <input id="check_password" type="password" formControlName="check_password">
+                <small class="error" *ngIf="signUp.errors?.notmatched && (signUp.controls.password.touched || signUp.controls.password.dirty) && (signUp.controls.check_password.touched || signUp.controls.check_password.dirty)">
+                    Password do not match
+                </small>
+            </div>
+
+            <span *ngIf="invalidForm" class="error">Form is Invalid. Please try again later</span>
+
+            <button [disabled]="!signUp.valid" class="btn" type="submit" (click)="onSubmit(signUp)"> 
+                Submit
+                <span *ngIf="loading">
+                    <span class="lds-dual-ring"></span>
+                </span>
+            </button>
+            
+        </ng-container>
+
+    </form>
+</div>

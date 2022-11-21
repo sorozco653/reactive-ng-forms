@@ -1,0 +1,11 @@
+<div class="modal-container">
+    <h2 class="modal__header">User Created</h2>
+    
+    <div class="user_info">
+        <p>Name: {{ (user$ | async)?.name }}</p>
+        <p>Email: {{ (user$ | async)?.email }}</p>
+        <p>Date of Birth: {{ (user$ | async)?.dob }}</p>
+    </div>
+
+     <p class="user_thanks">Thanks for Signing Up!</p>
+</div>
